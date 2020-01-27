@@ -1,0 +1,77 @@
+---
+title: Logistic growth with Allee effects
+permalink: logistic_test/
+layout: page
+---
+
+# Introduction
+
+Under the Allee effect, the growth of a population is reduced at low densities. Using the strong and the weak Allee effect models as indicated below, find the equilibrium through calculations, then confirm these using a graphical technique. Finally, write an ordinary differential equations model for the strong Allee effect, and verify that populations starting on different sides of the equilibrium do end up where they are predicted.
+
+## Required packages
+
+<html>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+<script>sagecell.makeSagecell({"inputLocation": ".sage", "hide": ["editor"]});</script>
+</html>
+
+<html>
+<div class="sage">
+  <script type="text/x-sage">
+var('N')
+@interact
+def _(r1=slider(0,1,0.05,default=0.2, label='r'), a=slider(0,20,1,default=5), K=slider(1,20,1, default=20), N0=slider(0,20,1,default=8), N_init=slider(0,20,1, default=0, label='Evaluation point')):
+    ## Grafico da velocidade x N
+    f = r1*N*(1-N/K)*((N-a))
+    ft = f.taylor(N,N_init,1)  
+    pf= plot(f,0,K,color='blue', axes_labels=["N","dN/dt"], thickness=1.5)
+    pt=point(points=(N_init,f(N=N_init)), color='red', pointsize=40)
+    pft=plot(ft, N_init-(0.1*K), N_init+(0.1*K), color='red')
+    plt=pf+pt+pft  
+    show(plt, figsize=[5,5])
+    </script>
+</div>
+</html>
+
+
+```julia
+using Plots
+using DifferentialEquations
+```
+
+## Model description and justification
+
+<!-- Use the two models for the strong and weak Allee effect, respectively -->
+
+$$\frac{\text{d}}{\text{d}t}n = n\times r\times \left(\frac{n}{A}-1\right)\times \left(1-\frac{n}{K}\right)$$
+
+$$\frac{\text{d}}{\text{d}t}n = n\times \frac{r}{K}N^2\times \left(1-\frac{n}{K}\right)$$
+
+## Model analysis
+
+### Equilibrium identification
+
+The values of $n$ for which the population is in equilibrium ($\hat n$) can be found when $n(t+1) = n(t)$, as this is a discrete time model. So, the equilibrium condition is given by $$\hat n = \hat n + \hat n \times r \times (1-\hat n ),$$ which simplifies to $$\hat n \times r \times (1-\hat n ) = 0.$$
+
+From this last equation, we can can get to two different equilibrium values for $n$:
+
+$$ \hat n_1 = 0$$ and $$ \hat n_2 = 1.$$
+
+Both of these equilibrium states have biological meaning, as when there is no individual in the population as an initial condition ($ n(t) = 0$), there is no way for the population to grow, and on the following time steps $n$ would remain on zero. With respect to $ \hat n = 1$, this equilibrium state refers to the carrying capacity, i.e. the maximum size for which, for a given positive $r$, population would not decline.  
+
+
+### Feasibility/Existence Conditions 
+
+For the equilibrium points to be able to occur, they have to be equal or greater than zero ($\hat n >= 0 $). This is true for both of them, as $ \hat n_1 = 0$ and $ \hat n_2 = 1$.
+
+### Stability analysis
+
+To analyse the stability of $ \hat n_1 = 0$ and $ \hat n_2 = 1$, we add a deviation $\epsilon$ to these $ \hat n $ states of equilibrium in such a way that $ n(t) = \hat n + \epsilon(t)$. To explore if $\hat n$ are stable or unstable, we want to know if $\epsilon(t+1)$ grows (indicating unstability) or shrinks (indicating stability) over time.
+By definition, $$\epsilon(t+1) = n(t+1) - \hat n.$$ As the model analysed is a recursion model, $$\epsilon(t+1) = f(n(t)) - \hat n,$$ which can be rewritten as $$\epsilon(t+1) = f(\hat n + \epsilon(t)) - \hat n.$$ As $\epsilon(t) \approx 0$, we can use the first and the second term of the Taylor series for $f(\hat n + \epsilon(t))$ and get to $$\epsilon(t+1) = f(\hat n) + \lambda \times \epsilon(t) - \hat n,$$ where $\lambda$ is $\frac{df}{dn}|_{n=\hat n}$ and is equivalent to the slope of the recursion line at the equilibrium points $\hat n$ on the $n(t+1)$  x  $n(t)$ plot. 
+In the equilibrium, $f(\hat n) = \hat n$ (recursion model), so $\epsilon(t+1) = \lambda \times \epsilon(t)$. Integrating to $\epsilon(t)$, we get that $$\epsilon(t) = \lambda ^{t} \times \epsilon(t_0).$$
+So, for a given $\hat n$, if $|\lambda|$ is greater than 1, $\epsilon(t)$ grows as $t$ gets larger, and the equilibrium is unstable. if $|\lambda|$ is lesser than 1, $\epsilon(t)$ shrinks as $t$ gets larger, and the equilibrium is stable.
+To analize the stability of $ \hat n_1 = 0$ and $ \hat n_2 = 1$, we can plot the $n(t+1)$  x  $n(t)$ graph for a given model simulation and visually identify if the slope of the recursion line is greater or lesser than $|1|$.
+
+## Simulations
+
+## Conclusions
