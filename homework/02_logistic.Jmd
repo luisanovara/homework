@@ -20,6 +20,32 @@ using Plots
 using DifferentialEquations
 ```
 
+## Test
+
+<html>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+<script>sagecell.makeSagecell({"inputLocation": ".sage", "hide": ["editor"]});</script>
+</html>
+
+<html>
+<div class="sage">
+  <script type="text/x-sage">
+var('N')
+@interact
+def _(r1=slider(0,1,0.05,default=0.2, label='r'), a=slider(0,20,1,default=5), K=slider(1,20,1, default=20), N0=slider(0,20,1,default=8), N_init=slider(0,20,1, default=0, label='Evaluation point')):
+    ## Grafico da velocidade x N
+    f = r1*N*(1-N/K)*((N-a))
+    ft = f.taylor(N,N_init,1)  
+    pf= plot(f,0,K,color='blue', axes_labels=["N","dN/dt"], thickness=1.5)
+    pt=point(points=(N_init,f(N=N_init)), color='red', pointsize=40)
+    pft=plot(ft, N_init-(0.1*K), N_init+(0.1*K), color='red')
+    plt=pf+pt+pft  
+    show(plt, figsize=[5,5])
+    </script>
+</div>
+</html>
+
+
 ## Model description and justification
 
 <!-- Use the two models for the strong and weak Allee effect, respectively -->
