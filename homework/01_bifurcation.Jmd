@@ -64,16 +64,22 @@ To analize the stability of $ \hat n_1 = 0$ and $ \hat n_2 = 1$, we can plot the
 
 r = 0.1 # sets the r value used in the simulations
 
-n = zeros(Float64, 200, 5) # creates an array with 200 lines and 5 columns to save the simulations results (5 population simulations over 200 time steps)
+n = zeros(Float64, 200, 6) # creates an array with 200 lines and 6 columns to save the simulations results (5 population simulations over 200 time steps)
 n[1,1] = 0.0 # sets n0 as 0 for the first simulation 
 n[1,2] = 0.01 # sets n0 as 0.01 for the second simulation 
 n[1,3] = 0.5 # sets n0 as 0.5 for the third simulation 
 n[1,4] = 1.0 # sets n0 as 1.0 for the forth simulation 
-n[1,5] = 1.5 # sets n0 as 1.5 for the fifth simulation 
+n[1,5] = 1.5 # sets n0 as 1.5 for the fifth simulation
+n[1,6] = 0.0 # sets n0 as 0.0 for the sixth simulation
+n[100,6] = 0.001 # adds a perturbation of size 0.001 at time 100 on the sixth simulation
 
-for i in 1:size(n,2) # creates a loop that goes from 1 to 5 (number of population simulations)
+for i in 1:size(n,2) # creates a loop that goes from 1 to 6 (number of population simulations)
     for t in 1:size(n,1)-1 # creates a loop that goes from 1 to 199 (number of time iterations for each population simulation)
-        n[t+1,i] = f(n[t,i],r) # applies the f function (the logistic model) - with the r value set before - for each simulation i on the population size at time t (n[t,i]) and saves the result on n[t+1,i]
+        if n[t+1,i] == 0.0 # creates a condition: if n(t+1) equals zero
+            n[t+1,i] = f(n[t,i],r) # applies the f function (the logistic model) - with the r value set before - for each simulation i on the population size at time t (n[t,i]) and saves the result on n[t+1,i]
+        else # if n(t+1) is different from zero (as when there is a perturbation set for the next time step)
+            n[t+1,i] = f(n[t,i],r) + n[t+1,i] # applies the f function on n(t) and adds to the perturbation set for the next time step to sum up the initial n for the next iteration 
+        end # ends the condition expression
     end # ends the time iteration loop
 end # ends the population simulation loop
 
@@ -95,14 +101,15 @@ We can also visualize these stability properties by plotting a *Population size 
 ```julia
 ###### Plotting n(t) against time t for all population simulations
 
-plot(n[:,1],ylims=(-0.1,1.5),xlabel="Time steps",ylabel="Population size relative to the carrying capacity",label="n(0) = 0") # plots n(t) x t for population 1
+plot(n[:,1],legend=:right,ylims=(-0.1,1.5),xlabel="Time steps",ylabel="Population size relative to the carrying capacity",label="n(0) = 0") # plots n(t) x t for population 1
 plot!(n[:,2],label="n(0) = 0.01") # plots n(t) x t for population 2 on the same graph
 plot!(n[:,3],label="n(0) = 0.5") # plots n(t) x t for population 3 on the same graph
 plot!(n[:,4],label="n(0) = 1.0") # plots n(t) x t for population 4 on the same graph
 plot!(n[:,5],label="n(0) = 1.5") # plots n(t) x t for population 5 on the same graph
+plot!(n[:,6],label="n(0) = 0.0 with 0.001 perturbation at time 100") # plots n(t) x t for population 6 on the same graph
 ```
 
-The populations that had $n_0$ different from zero have maintained, grown or fallen to the equilibrium point $\hat n = 1$, demonstrating its stability. On the other hand, the population that had $n_0$ equal to zero maintained this value over time. Even the population with $n_0$ close to zero had moved away from the equilibrium point $\hat n = 0$, a demonstration of its unstability.
+The populations that had $n_0$ different from zero have maintained, grown or fallen to the equilibrium point $\hat n = 1$, demonstrating its stability. On the other hand, the population that had $n_0$ equal to zero maintained this value over time. The population with $n_0$ close to zero ($n_0$ = 0.01) had moved away from the equilibrium point $\hat n = 0$, as well as the population with zero $n_0$ submitted to a 0.001 perturbation at time 100, giving a demonstration of the $\hat n = 0$ unstability.
 
 ## Simulations
 
