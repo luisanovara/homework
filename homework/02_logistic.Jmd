@@ -270,7 +270,7 @@ Populations under instraspecific competition and strong Allee effect have three 
 
 Populations under instraspecific competition and weak Allee effect, diversely, have two equilibrium points with regard to their sizes. Just like populations under competition and strong Allee effect, one of them is $\hat n = K$, the carrying capacity, which is again stable. However, for weak Allee effect, there is no equilibrium point such as a minimum population viable size, as the population growth rate dN/dt does not get negative values at low densities as they do in populations under strong Allee effect. Instead, dN/dt assumes smaller but still positive values at low population densities if compared to populations with no Allee effect at all. Therefore, weak Allee effect consists of slowing down population growth towards $K$. Unlike populations under strong Allee effect, in such populations $\hat n = 0$ is an unstable equilibrium point, as any initial abundance greater than zero leads to $K$.
 
-## Cool thing <h5> that only the open-source world can give us </h5>
+## Cool thing (that only the open-source world can give us)
 
 <html>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
