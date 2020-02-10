@@ -1,0 +1,56 @@
+---
+title: Wow
+permalink: cool_thing/
+layout: page
+---
+
+# The Allee effect
+
+## Cool thing (that only the open-source world can give us)
+
+<html>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+<script>sagecell.makeSagecell({"inputLocation": ".sage", "hide": ["editor"]});</script>
+</html>
+
+Click on the first "Evaluate" button to generate an interative $\frac{d}{dt}(n(t))$  x  $n(t)$ graph for the strong Allee effect model.
+
+<html>
+<div class="sage">
+  <script type="text/x-sage">
+var('N')
+@interact
+def _(r1=slider(0,1,0.05,default=0.2, label='r'), a=slider(0,20,1,default=5), K=slider(1,20,1, default=20), N0=slider(0,20,1,default=8), N_init=slider(0,20,1, default=0, label='Evaluation point')):
+    ## dN/dt x N
+    f = r1*N*(1-N/K)*((N-a))
+    ft = f.taylor(N,N_init,1)  
+    pf= plot(f,0,K,color='blue', axes_labels=["N","dN/dt"], thickness=1.5)
+    pt=point(points=(N_init,f(N=N_init)), color='red', pointsize=40)
+    pft=plot(ft, N_init-(0.1*K), N_init+(0.1*K), color='red')
+    plt=pf+pt+pft  
+    show(plt, figsize=[5,5])
+    </script>
+</div>
+</html>
+
+Click on the second "Evaluate" button to generate an interative $\frac{d}{dt}(n(t))$  x  $n(t)$ graph for the weak Allee effect model.
+
+<html>
+<div class="sage">
+  <script type="text/x-sage">
+var('N')
+@interact
+def _(r1=slider(0,1,0.05,default=0.2, label='r'), K=slider(1,20,1, default=20), N0=slider(0,20,1,default=8), N_init=slider(0,20,1, default=0, label='Evaluation point')):
+    ## Grafico da velocidade x N
+    f = r1*N*(1-N/K)*(N/K)
+    ft = f.taylor(N,N_init,1)  
+    pf= plot(f,0,K,color='blue', axes_labels=["N","dN/dt"], thickness=1.5)
+    pt=point(points=(N_init,f(N=N_init)), color='red', pointsize=40)
+    pft=plot(ft, N_init-(0.1*K), N_init+(0.1*K), color='red')
+    plt=pf+pt+pft  
+    show(plt, figsize=[5,5])
+    </script>
+</div>
+</html>
+
+PS.: The interative graphs are runned remotely on [Sage Cell Server](http://aleph.sagemath.org/static/about.html?v=103b2268085e3a183130be519fb55ce7). I discovered this interface through the amazing [EcoVirtual wiki](http://ecovirtual.ib.usp.br/doku.php?id=ecovirt:tag_index), created and maintained by professors Alexandre Adalardo and Paulo Inacio Prado, from University of Sao Paulo. The code for the strong Allee effect interative graph was taken from [here](http://ecovirtual.ib.usp.br/doku.php?id=en:ecovirt:roteiro:math:allesage&s[]=allee), a study guide for the Allee effect avaiable in english. I adapted this code to generate the weak Allee effect interative graph.
