@@ -30,6 +30,8 @@ jobs:
         run: julia --project -e 'using Weave; weave(joinpath("homework", "02_logistic.Jmd"); doctype="github", out_path="dist")'
       - name: "HOMEWORK 03"
         run: julia --project -e 'using Weave; weave(joinpath("homework", "03_competition.Jmd"); doctype="github", out_path="dist")'
+      - name: "COOL THING"
+        run: julia --project -e 'using Weave; weave(joinpath("homework", "cool_thing_allee_effect.Jmd"); doctype="github", out_path="dist")'
       - name: "GitHub Pages deployment"
         uses: maxheld83/ghpages@v0.2.1
         env:
