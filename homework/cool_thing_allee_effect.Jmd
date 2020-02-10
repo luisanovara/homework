@@ -13,7 +13,7 @@ layout: page
 <script>sagecell.makeSagecell({"inputLocation": ".sage", "hide": ["editor"]});</script>
 </html>
 
-Click on the first "Evaluate" button to generate an interative $\frac{d}{dt}(n(t))$  x  $n(t)$ graph for the strong Allee effect model.
+Click on the first "Evaluate" button to generate an interactive $\frac{d}{dt}(n(t))$  x  $n(t)$ graph for the strong Allee effect model.
 
 <html>
 <div class="sage">
@@ -33,7 +33,7 @@ def _(r1=slider(0,1,0.05,default=0.2, label='r'), a=slider(0,20,1,default=5), K=
 </div>
 </html>
 
-Click on the second "Evaluate" button to generate an interative $\frac{d}{dt}(n(t))$  x  $n(t)$ graph for the weak Allee effect model.
+Click on the second "Evaluate" button to generate an interactive $\frac{d}{dt}(n(t))$  x  $n(t)$ graph for the weak Allee effect model.
 
 <html>
 <div class="sage">
