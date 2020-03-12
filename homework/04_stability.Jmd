@@ -153,6 +153,9 @@ If we create a scenario with prey and predator population sizes initially set as
 
 
 ```julia
+# t0 - t end
+t = (0., 500.)
+
 # Initial population sizes
 u0 = [0., 0.]
 
